@@ -34,6 +34,9 @@ export const postData = (url, data, optionalParams = {}) => {
             if (error.response && error.response.status === 422) {
                 throw error.response.data.data; // Throw the validation error message
             }
+            else{
+                throw error.response;
+            }
         });
 };
 

@@ -1,28 +1,18 @@
-/*!
 
-=========================================================
-* Light Bootstrap Dashboard React - v2.0.1
-=========================================================
-
-* Product Page: https://www.creative-tim.com/product/light-bootstrap-dashboard-react
-* Copyright 2022 Creative Tim (https://www.creative-tim.com)
-* Licensed under MIT (https://github.com/creativetimofficial/light-bootstrap-dashboard-react/blob/master/LICENSE.md)
-
-* Coded by Creative Tim
-
-=========================================================
-
-* The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
-
-*/
 import React, { Component } from "react";
 import { useLocation } from "react-router-dom";
 import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
+import { useHistory } from "react-router-dom";
+import axios from "axios";
+
 
 import routes from "routes.js";
+import { postData } from "services/methods/api";
 
 function Header() {
   const location = useLocation();
+  const history = useHistory();
+  
   const mobileSidebarToggle = (e) => {
     e.preventDefault();
     document.documentElement.classList.toggle("nav-open");
@@ -34,6 +24,18 @@ function Header() {
     };
     document.body.appendChild(node);
   };
+
+  function logout() {
+    postData('/logout', '').then((res) => {
+      localStorage.removeItem("access_token");
+      localStorage.removeItem("permissions");
+      localStorage.clear();
+      history.push("/");
+  })
+  .catch(error => {
+      // setValidationError(error.error);
+  });
+  }
 
   const getBrandText = () => {
     for (let i = 0; i < routes.length; i++) {
@@ -169,7 +171,7 @@ function Header() {
               <Nav.Link
                 className="m-0"
                 href="#pablo"
-                onClick={(e) => e.preventDefault()}
+                onClick={logout}
               >
                 <span className="no-icon">Log out</span>
               </Nav.Link>
@@ -182,3 +184,6 @@ function Header() {
 }
 
 export default Header;
+
+
+
