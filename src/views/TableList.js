@@ -109,13 +109,17 @@ function TableList() {
                               >
                                 {item.status === "rejected"
                                   ? "Rejected"
-                                  : "Reject"}
+                                  : ""}
                               </Button>
                             )}
+                           
                           </td>
+                          
                         )}
 
-{!hasPermission("update_outpast")?'dasd':''}
+                        {!hasPermission("update_outpast") ? (
+                          <td>{item.status}</td>
+                        ) : ''}
                       </tr>
                     ))}
                   </tbody>

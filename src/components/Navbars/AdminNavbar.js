@@ -1,17 +1,18 @@
 
 import React, { Component } from "react";
-import { useLocation } from "react-router-dom";
 import { Navbar, Container, Nav, Dropdown, Button } from "react-bootstrap";
 import { useHistory } from "react-router-dom";
-import axios from "axios";
-
-
 import routes from "routes.js";
 import { postData } from "services/methods/api";
 
 function Header() {
- 
-  
+  //////////////////////////////////
+  //Hooks
+  const history = useHistory();
+  //////////////////////////////////
+
+  //////////////////////////////////
+  //Methods
   const mobileSidebarToggle = (e) => {
     e.preventDefault();
     document.documentElement.classList.toggle("nav-open");
@@ -28,12 +29,12 @@ function Header() {
     postData('/logout', '').then((res) => {
       localStorage.removeItem("access_token");
       localStorage.removeItem("permissions");
-        localStorage.clear();
+      localStorage.clear();
       history.push("/");
-  })
-  .catch(error => {
-      // setValidationError(error.error);
-  });
+    })
+      .catch(error => {
+        // setValidationError(error.error);
+      });
   }
 
   const getBrandText = () => {
@@ -44,6 +45,7 @@ function Header() {
     }
     return "Brand";
   };
+  //////////////////////////////////
   return (
     <Navbar bg="light" expand="lg">
       <Container fluid>
@@ -70,7 +72,7 @@ function Header() {
         </Navbar.Toggle>
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="nav mr-auto" navbar>
-            
+
             <Dropdown as={Nav.Item}>
               <Dropdown.Toggle
                 as={Nav.Link}
@@ -116,10 +118,10 @@ function Header() {
                 </Dropdown.Item>
               </Dropdown.Menu>
             </Dropdown>
-       
+
           </Nav>
           <Nav className="ml-auto" navbar>
-        
+
             <Dropdown as={Nav.Item}>
               <Dropdown.Toggle
                 aria-expanded={false}
