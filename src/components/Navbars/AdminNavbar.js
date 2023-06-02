@@ -10,8 +10,7 @@ import routes from "routes.js";
 import { postData } from "services/methods/api";
 
 function Header() {
-  const location = useLocation();
-  const history = useHistory();
+ 
   
   const mobileSidebarToggle = (e) => {
     e.preventDefault();
@@ -29,7 +28,7 @@ function Header() {
     postData('/logout', '').then((res) => {
       localStorage.removeItem("access_token");
       localStorage.removeItem("permissions");
-      localStorage.clear();
+        localStorage.clear();
       history.push("/");
   })
   .catch(error => {

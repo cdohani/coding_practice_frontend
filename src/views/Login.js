@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 function Login() {
     //////////////////////////////////
     //Hooks
-    const history = useHistory();
+   
 
     useEffect(() => {
 
@@ -44,14 +44,7 @@ function Login() {
             setValidationError(error.error);
         });
     }
-    /////////////////////////////////
-
-
-    //////////////////////////////////
-    //Others
-
-    /////////////////////////////////
-
+    
 
     return (
 

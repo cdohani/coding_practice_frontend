@@ -10,58 +10,49 @@ import {
   Nav,
   Container,
   Row,
-  Col
+  Col,
 } from "react-bootstrap";
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { postData } from "services/methods/api";
+import { useLocation } from "react-router-dom";
+
 const date = new Date();
 function User() {
-  //////////////////////////////////
   //Hooks
   const history = useHistory();
+  const [approvalMessage, setApprovalMessage] = useState("");
 
-  useEffect(() => {
+  useEffect(() => {}, []);
 
-  }, []);
+  const location = useLocation();
+  const searchParams = new URLSearchParams(location.search);
+  const status = searchParams.get("status");
 
-
-  //////////////////////////////////
   //States
   const [formData, setFormData] = useState();
-  const [validationError, setValidationError] = useState('');
-  /////////////////////////////////
+  const [validationError, setValidationError] = useState("");
 
-  /////////////////////////////////
-
-
-
-
-  //////////////////////////////////
   //Methods
   const handleChange = (event) => {
     const { name, value } = event.target;
-    setFormData(prevState => ({
+    setFormData((prevState) => ({
       ...prevState,
-      [name]: value
+      [name]: value,
     }));
   };
 
   const handleFormSubmit = (e) => {
     e.preventDefault();
-    postData('/outpass', formData).then((res) => {
-      // history.push("/dashboard");
-    })
-      .catch(error => {
+    postData("/outpass", formData)
+      .then((res) => {
+        // history.push("/dashboard");
+      })
+      .catch((error) => {
         setValidationError(error.error);
       });
-  }
-  /////////////////////////////////
+  };
 
-
-  //////////////////////////////////
   //Others
-
-  /////////////////////////////////
 
   return (
     <>
@@ -75,7 +66,6 @@ function User() {
               <Card.Body>
                 <Form onSubmit={handleFormSubmit}>
                   <Row>
-
                     <Col className="pr-1" md="4">
                       <Form.Group>
                         <label>Outpass Date</label>
@@ -91,9 +81,7 @@ function User() {
                     </Col>
                     <Col className="pl-1" md="4">
                       <Form.Group>
-                        <label htmlFor="exampleInputEmail1">
-                          from
-                        </label>
+                        <label htmlFor="exampleInputEmail1">from</label>
                         <Form.Control
                           name="outpass_from"
                           placeholder="Email"
@@ -115,10 +103,6 @@ function User() {
                       </Form.Group>
                     </Col>
                   </Row>
-                  <Row>
-                    
-
-                  </Row>
 
                   <Button
                     className="btn-fill pull-right"
@@ -132,10 +116,18 @@ function User() {
               </Card.Body>
             </Card>
           </Col>
-         
-         
+       
         </Row>
       </Container>
+      {status && (
+        <div
+          className={`alert ${
+            status === "approved" ? "alert-success" : "alert-danger"
+          }`}
+        >
+          {status === "approved" ? "Approved" : "Rejected"}
+        </div>
+      )}
     </>
   );
 }
