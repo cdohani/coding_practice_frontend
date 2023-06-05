@@ -26,11 +26,19 @@ function StudentRegister() {
     //////////////////////////////////
     //Methods
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+        if (event.target.type === 'file') {
+            const file = event.target.files[0];
+            setFormData(prevState => ({
+                ...prevState,
+                [event.target.name]: file
+            }));
+        } else {
+            const { name, value } = event.target;
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
     };
 
     const handleFormSubmit = (e) => {
@@ -38,9 +46,9 @@ function StudentRegister() {
         postData('/student/register', formData).then(() => {
             history.push("/");
         })
-        .catch(error => {
-            setValidationError(error);
-        });
+            .catch(error => {
+                setValidationError(error);
+            });
     }
     /////////////////////////////////
 
@@ -124,6 +132,12 @@ function StudentRegister() {
                                         <input type="email" id="" name="email" required onChange={handleChange} />
                                         <label>Email</label>
                                         <small style={{ color: "red" }} >{validationError?.email ? validationError?.email : ''}</small>
+                                    </div>
+
+                                    <div className="form-group">
+                                        <input type="file" id="" name="image" required onChange={handleChange} />
+
+                                        <small style={{ color: "red" }} >{validationError?.image ? validationError?.image : ''}</small>
                                     </div>
 
 

@@ -42,7 +42,7 @@ root.render(
       <Route path="/student-login" exact component={StudentRegister} />
       <Route path="/" render={(props) => <AdminLayout {...props} />} />
 
-      <Redirect from="/" to="/admin/dashboard" />
+      <Redirect from="/" to="/" />
     </Switch>
   </BrowserRouter>
 );

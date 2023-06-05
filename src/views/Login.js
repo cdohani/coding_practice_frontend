@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 function Login() {
     //////////////////////////////////
     //Hooks
-   
+
     const history = useHistory();
     useEffect(() => {
 
@@ -25,26 +25,37 @@ function Login() {
 
     //////////////////////////////////
     //Methods
+
+
     const handleChange = (event) => {
-        const { name, value } = event.target;
-        setFormData(prevState => ({
-            ...prevState,
-            [name]: value
-        }));
+        if (event.target.type === 'file') {
+            const file = event.target.files[0];
+            setFormData(prevState => ({
+                ...prevState,
+                [event.target.name]: file
+            }));
+        } else {
+            const { name, value } = event.target;
+            setFormData(prevState => ({
+                ...prevState,
+                [name]: value
+            }));
+        }
     };
+
 
     const handleFormSubmit = (e) => {
         e.preventDefault();
         postData('/student/login', formData).then((res) => {
-            localStorage.setItem("access_token",res.data.data.token);
-            localStorage.setItem("permissions",JSON.stringify(res.data.data.permissions));
-            history.push("/admin/create");
+            // localStorage.setItem("access_token", res.data.data.token);
+            // localStorage.setItem("permissions", JSON.stringify(res.data.data.permissions));
+            // history.push("/admin/create");
         })
-        .catch(error => {
-            setValidationError(error.error);
-        });
+            .catch(error => {
+                // setValidationError(error.error);
+            });
     }
-    
+
 
     return (
 
@@ -55,12 +66,12 @@ function Login() {
                         <div className="form-area login-form">
                             <div className="form-content">
                                 <h2>Login</h2>
-                                
+
 
                             </div>
                             <div className="form-input">
                                 <h2>Login Form</h2>
-                                <p style={{color:"red"}}>{validationError}</p>
+                                <p style={{ color: "red" }}>{validationError}</p>
                                 <form onSubmit={handleFormSubmit}>
                                     <div className="form-group">
                                         <input type="text" id="" name="id" required onChange={handleChange} />
@@ -70,6 +81,13 @@ function Login() {
                                         <input type="password" id="" name="password" required onChange={handleChange} />
                                         <label>password</label>
                                     </div>
+
+                                    <div className="form-group">
+                                        <input type="file" id="" name="image" required onChange={handleChange} />
+
+                                        <small style={{ color: "red" }} >{validationError?.image ? validationError?.image : ''}</small>
+                                    </div>
+
                                     <div className="myform-button">
                                         <button className="myform-btn" type='submit'>Login</button>
                                     </div>

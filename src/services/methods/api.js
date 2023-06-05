@@ -12,20 +12,21 @@ export const fetchData = (url, optionalParams = {}) => {
         });
 };
 
-export const postData = (url, data, optionalParams = {}) => {
+export const postData = (url, data, file,optionalParams = {}) => {
     const { files = {}, ...restParams } = optionalParams;
 
     const formData = new FormData();
 
-    Object.keys(files).forEach(key => {
-        formData.append(key, files[key]);
-    });
+    // Object.keys(files).forEach(key => {
+    //     formData.append(key, files[key]);
+    // });
 
     Object.keys(data).forEach(key => {
         formData.append(key, data[key]);
     });
 
-    return axiosInstance.post(url, formData, { params: restParams })
+    // formData.append('image', file);
+    return axiosInstance.post(url, formData, { params: restParams }, { headers: { "Content-Type": "multipart/form-data" }})
         .then(response => {
             successAlert("Saved", response.data.message);
             return response;
