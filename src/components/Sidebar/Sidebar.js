@@ -30,7 +30,7 @@ function Sidebar({ color, image, routes }) {
 
   const hasPermission = (tabName) => {
     const permissionsData = JSON.parse(localStorage.getItem("permissions"));
-    return permissionsData.some((permission) => permission.name === tabName);
+    return permissionsData?.some((permission) => permission.name === tabName);
   };
   return (
     <div className="sidebar" data-image={image} data-color={color}>

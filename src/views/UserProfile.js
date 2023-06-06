@@ -15,6 +15,7 @@ import {
 import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
 import { postData } from "services/methods/api";
 import { useLocation } from "react-router-dom";
+import { fetchData } from "services/methods/api";
 
 const date = new Date();
 function User() {
@@ -22,11 +23,24 @@ function User() {
   const history = useHistory();
   const [approvalMessage, setApprovalMessage] = useState("");
 
-  useEffect(() => {}, []);
-
   const location = useLocation();
-  const searchParams = new URLSearchParams(location.search);
-  const status = searchParams.get("status");
+  const queryParams = new URLSearchParams(location.search);
+  const token = queryParams.get('token');
+
+if(token && !localStorage.getItem("access_token"))
+{
+  localStorage.setItem("access_token", token);
+}
+  useEffect(() => {
+    if (token && !localStorage.getItem("access_token")) {
+      postData('/student/get-student-permissions', '').then((res) => {
+        localStorage.setItem("permissions", JSON.stringify(res.data.data.permissions));
+      })
+        .catch(error => {
+        });
+    }
+  }, []);
+
 
   //States
   const [formData, setFormData] = useState();
@@ -116,14 +130,13 @@ function User() {
               </Card.Body>
             </Card>
           </Col>
-       
+
         </Row>
       </Container>
       {status && (
         <div
-          className={`alert ${
-            status === "approved" ? "alert-success" : "alert-danger"
-          }`}
+          className={`alert ${status === "approved" ? "alert-success" : "alert-danger"
+            }`}
         >
           {status === "approved" ? "Approved" : "Rejected"}
         </div>

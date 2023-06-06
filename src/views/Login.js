@@ -47,12 +47,12 @@ function Login() {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         postData('/student/login', formData).then((res) => {
-            // localStorage.setItem("access_token", res.data.data.token);
-            // localStorage.setItem("permissions", JSON.stringify(res.data.data.permissions));
-            // history.push("/admin/create");
+            localStorage.setItem("access_token", res.data.data.token);
+            localStorage.setItem("permissions", JSON.stringify(res.data.data.permissions));
+            history.push("/admin/create");
         })
             .catch(error => {
-                // setValidationError(error.error);
+                setValidationError(error.error);
             });
     }
 
@@ -74,7 +74,7 @@ function Login() {
                                 <p style={{ color: "red" }}>{validationError}</p>
                                 <form onSubmit={handleFormSubmit}>
                                     <div className="form-group">
-                                        <input type="text" id="" name="id" required onChange={handleChange} />
+                                        <input type="text" id="" name="email" required onChange={handleChange} />
                                         <label>Id</label>
                                     </div>
                                     <div className="form-group">
